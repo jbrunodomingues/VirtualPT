@@ -13,16 +13,11 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:annotation-config/>
-    <context:component-scan base-package="com.brn.homebrew.controller"/>
+    <import resource="spring-security.xml"/>
 
-    <bean id="jspViewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass"
-                  value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/view/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
+    <context:annotation-config/>
+
+    <mvc:resources mapping="/static/**" location="static"/>
 
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
@@ -45,11 +40,6 @@
             </props>
         </property>
     </bean>
-
-    <bean id="trackManager" class="com.brn.homebrew.service.TrackManagerImpl"/>
-    <bean id="trackDAO" class="com.brn.homebrew.dao.TrackDAOImpl"/>
-
-    <bean id="lazyLoadingAspect" class="com.brn.homebrew.infrastructure.LazyLoadingAspect"/>
 
     <tx:annotation-driven/>
 
