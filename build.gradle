@@ -10,17 +10,20 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 ext {
-    springframeworkVersion = '4.0.3.RELEASE'
+    springframeworkVersion = '4.0.5.RELEASE'
     springSecurityVersion = '3.2.3.RELEASE'
     hibernateVersion = '4.3.5.Final'
     junitVersion = '4.11'
-    jacksonVersion = '1.9.13'
+    jacksonVersion = '2.3.3'
     mysqlConnectorVersion = '5.1.30'
     jstlVersion = '1.2'
     servletApiVersion = '3.1.0'
     commonsDbcpVersion = '1.4'
     aspectJVersion = '1.8.0'
     dozerVersion = '5.5.1'
+    hsqlDbVersion= '2.3.2'
+    mockitoVersion = '1.9.5'
+    jaywayJsonpath = 'json-path:0.9.1'
 }
 
 repositories {
@@ -53,10 +56,16 @@ dependencies {
     compile "org.springframework.security:spring-security-config:$springSecurityVersion"
     compile "org.aspectj:aspectjrt:$aspectJVersion"
     compile "org.aspectj:aspectjweaver:$aspectJVersion"
-    compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
+//    compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
+//    compile "org.codehaus.jackson:jackson-core-asl:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     compile "log4j:log4j:1.2.17"
     compile "net.sf.dozer:dozer:$dozerVersion"
     providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
     testCompile "junit:junit:$junitVersion"
     testCompile "org.springframework:spring-test:$springframeworkVersion"
+    testCompile "org.hsqldb:hsqldb:$hsqlDbVersion"
+    testCompile "org.mockito:mockito-all:$mockitoVersion"
+    testCompile "com.jayway.jsonpath:$jaywayJsonpath"
 }
