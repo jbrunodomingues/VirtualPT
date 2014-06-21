@@ -53,8 +53,8 @@ public class Person {
 
         Person person = (Person) o;
 
-        if (id != person.id) return false;
         if (firstName != null ? !firstName.equals(person.firstName) : person.firstName != null) return false;
+        if (id != null ? !id.equals(person.id) : person.id != null) return false;
         if (lastName != null ? !lastName.equals(person.lastName) : person.lastName != null) return false;
 
         return true;
@@ -62,7 +62,7 @@ public class Person {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         return result;
@@ -70,11 +70,10 @@ public class Person {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Person{");
-        sb.append("id=").append(id);
-        sb.append(", firstName='").append(firstName).append('\'');
-        sb.append(", lastName='").append(lastName).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }

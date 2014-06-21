@@ -4,7 +4,6 @@ import com.brn.homebrew.entity.Client;
 import com.brn.homebrew.service.ClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,7 +24,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 /**
  * @author Bruno Domingues
  */
-@Ignore
 public class ClientControllerTest {
 
     MockMvc mockMvc;

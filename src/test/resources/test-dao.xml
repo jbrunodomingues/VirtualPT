@@ -7,7 +7,7 @@
 
 
     <jdbc:embedded-database id="dataSource" type="HSQL">
-        <jdbc:script location="classpath:test.sql"/>
+        <jdbc:script location="classpath:hsqlSchema.sql"/>
     </jdbc:embedded-database>
 
     <bean id="transactionManager"
@@ -25,6 +25,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="personalTrainerDao" class="com.brn.homebrew.dao.impl.PersonalTrainerDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>
     </bean>
