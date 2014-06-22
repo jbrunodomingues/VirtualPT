@@ -12,14 +12,13 @@ import static org.mockito.Mockito.verify;
  */
 public class ClientServiceImplTest {
 
-
     @Test
     public void shouldCreate() throws Exception {
         //given
         Client client = new Client();
         client.setId(1L);
         client.setFirstName("John");
-        client.setLastName("Dow");
+        client.setLastName("Doe");
         ClientDao clientDaoMock = mock(ClientDao.class);
         ClientServiceImpl clientService = new ClientServiceImpl(clientDaoMock);
         //when

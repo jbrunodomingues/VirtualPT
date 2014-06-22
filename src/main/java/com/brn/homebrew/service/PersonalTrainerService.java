@@ -1,4 +1,4 @@
-package com.brn.homebrew.dao;
+package com.brn.homebrew.service;
 
 import com.brn.homebrew.entity.PersonalTrainer;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Bruno Domingues
  */
-public interface PersonalTrainerDao extends Dao<PersonalTrainer> {
+public interface PersonalTrainerService extends Service<PersonalTrainer> {
 
     List<PersonalTrainer> readAll();
 }

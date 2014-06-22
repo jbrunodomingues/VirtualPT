@@ -7,38 +7,16 @@ import com.brn.homebrew.service.ClientService;
 /**
  * @author Bruno Domingues
  */
-public class ClientServiceImpl implements ClientService {
-
-    private ClientDao clientDao;
+public class ClientServiceImpl extends AbstractService<Client> implements ClientService {
 
     public ClientServiceImpl() {
     }
 
     public ClientServiceImpl(ClientDao clientDao) {
-        this.clientDao = clientDao;
-    }
-
-    @Override
-    public void create(Client client) {
-        clientDao.create(client);
-    }
-
-    @Override
-    public Client read(Long id) {
-        return null;
-    }
-
-    @Override
-    public void update(Client client) {
-
-    }
-
-    @Override
-    public void delete(Client client) {
-
+        setDao(clientDao);
     }
 
     public void setClientDao(ClientDao clientDao) {
-        this.clientDao = clientDao;
+        setDao(clientDao);
     }
 }

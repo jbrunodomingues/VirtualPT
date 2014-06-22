@@ -26,6 +26,14 @@
     <bean id="trackManager" class="com.brn.homebrew.service.TrackManagerImpl"/>
     <bean id="trackDAO" class="com.brn.homebrew.dao.TrackDAOImpl"/>
 
+    <bean id="personalTrainerService" class="com.brn.homebrew.service.impl.PersonalTrainerServiceImpl">
+        <constructor-arg ref="personalTrainerDao"/>
+    </bean>
+
+    <bean id="personalTrainerDao" class="com.brn.homebrew.dao.impl.PersonalTrainerDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <bean id="clientService" class="com.brn.homebrew.service.impl.ClientServiceImpl">
         <property name="clientDao" ref="clientDao"/>
     </bean>
@@ -33,4 +41,8 @@
     <bean id="clientDao" class="com.brn.homebrew.dao.impl.ClientDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <!--<bean id="lazyLoadingAspect" class="com.brn.homebrew.infrastructure.LazyLoadingAspect">-->
+    <!--</bean>-->
+
 </beans>

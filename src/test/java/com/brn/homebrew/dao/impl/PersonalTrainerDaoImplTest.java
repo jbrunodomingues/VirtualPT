@@ -10,6 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -105,6 +108,31 @@ public class PersonalTrainerDaoImplTest extends AbstractTransactionalJUnit4Sprin
         client.setLastName("Joe");
         expected.getClients().add(client);
         client.getPersonalTrainers().add(expected);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldReadAllPersonalTrainers() throws Exception {
+        //given
+        jdbcTemplate.update("INSERT INTO PERSON (ID_PERSON, FIRST_NAME, LAST_NAME) VALUES (1, 'Gonçalo', 'Mosqueira')");
+        jdbcTemplate.update("INSERT INTO PERSON (ID_PERSON, FIRST_NAME, LAST_NAME) VALUES (2, 'Tatiana', 'Costa')");
+        jdbcTemplate.update("INSERT INTO PERSONAL_TRAINER (ID_PERSON) VALUES (1)");
+        jdbcTemplate.update("INSERT INTO PERSONAL_TRAINER (ID_PERSON) VALUES (2)");
+        jdbcTemplate.update("INSERT INTO PERSON (ID_PERSON, FIRST_NAME, LAST_NAME) VALUES (3, 'Fat', 'Joe')");
+        jdbcTemplate.update("INSERT INTO PERSON (ID_PERSON, FIRST_NAME, LAST_NAME) VALUES (4, 'Monica', 'Bitch')");
+        jdbcTemplate.update("INSERT INTO PERSON (ID_PERSON, FIRST_NAME, LAST_NAME) VALUES (5, 'Ronald', 'Mcdonalds')");
+        jdbcTemplate.update("INSERT INTO CLIENT (ID_PERSON) VALUES (3)");
+        jdbcTemplate.update("INSERT INTO CLIENT (ID_PERSON) VALUES (4)");
+        jdbcTemplate.update("INSERT INTO CLIENT (ID_PERSON) VALUES (5)");
+        jdbcTemplate.update("INSERT INTO PERSONAL_TRAINER_CLIENT (REFID_PERSONAL_TRAINER, REFID_CLIENT) VALUES (1, 3)");
+        jdbcTemplate.update("INSERT INTO PERSONAL_TRAINER_CLIENT (REFID_PERSONAL_TRAINER, REFID_CLIENT) VALUES (1, 4)");
+        jdbcTemplate.update("INSERT INTO PERSONAL_TRAINER_CLIENT (REFID_PERSONAL_TRAINER, REFID_CLIENT) VALUES (1, 5)");
+        //when
+        List<PersonalTrainer> actual = dao.readAll();
+        //then
+        List<PersonalTrainer> expected = new ArrayList<>();
+        expected.add(dao.read(1L));
+        expected.add(dao.read(2L));
         assertEquals(expected, actual);
     }
 }

@@ -58,7 +58,7 @@ public class ClientControllerTest {
     }
 
     @Test
-    public void shouldReturnClient() throws Exception {
+    public void shouldReadClient() throws Exception {
         //given
         Client client = new Client();
         client.setId(1L);
