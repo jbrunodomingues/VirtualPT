@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class PersonalTrainerDaoImpl extends AbstractDao<PersonalTrainer> implements PersonalTrainerDao {
 
-    @Override
-    protected Class getTargetClass() {
-        return PersonalTrainer.class;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public List<PersonalTrainer> readAll() {
-        return getSession().createCriteria(PersonalTrainer.class).list();
+        return getSession().createCriteria(getTargetClass()).list();
+    }
+
+    @Override
+    protected Class getTargetClass() {
+        return PersonalTrainer.class;
     }
 }

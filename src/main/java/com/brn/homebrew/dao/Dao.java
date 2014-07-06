@@ -5,11 +5,11 @@ package com.brn.homebrew.dao;
  */
 public interface Dao<T> {
 
-    void create(T client);
+    Long create(T entity);
 
     T read(Long id);
 
-    void update(T client);
+    void update(T entity);
 
-    void delete(T client);
+    void delete(T entity);
 }

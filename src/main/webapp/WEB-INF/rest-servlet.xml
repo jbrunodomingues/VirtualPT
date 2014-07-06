@@ -42,6 +42,14 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="ptClientAssociationService" class="com.brn.homebrew.service.impl.PtClientAssociationServiceImpl">
+        <property name="dao" ref="ptClientAssociationDao"/>
+    </bean>
+
+    <bean id="ptClientAssociationDao" class="com.brn.homebrew.dao.impl.PtClientAssociationDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <!--<bean id="lazyLoadingAspect" class="com.brn.homebrew.infrastructure.LazyLoadingAspect">-->
     <!--</bean>-->
 

@@ -1,8 +1,6 @@
 package com.brn.homebrew.controller;
 
-import com.brn.homebrew.controller.dto.ClientDto;
 import com.brn.homebrew.controller.dto.PersonalTrainerDto;
-import com.brn.homebrew.entity.Client;
 import com.brn.homebrew.entity.PersonalTrainer;
 import com.brn.homebrew.service.PersonalTrainerService;
 import org.dozer.DozerBeanMapperSingletonWrapper;
@@ -51,17 +49,17 @@ public class PersonalTrainerController {
         return dtoList;
     }
 
-    @RequestMapping(value = "{id}/clients", method = GET, produces = APPLICATION_JSON_VALUE + ";charset=utf-8")
-    @Transactional
-    @ResponseStatus(OK)
-    public List<ClientDto> readClientsFromPersonalTrainer(@PathVariable Long id) {
-        PersonalTrainer personalTrainer = personalTrainerService.read(id);
-        List<ClientDto> dtoList = new ArrayList<>();
-        for (Client client : personalTrainer.getClients()) {
-            dtoList.add(getMapper().map(client, ClientDto.class));
-        }
-        return dtoList;
-    }
+//    @RequestMapping(value = "{id}/clients", method = GET, produces = APPLICATION_JSON_VALUE + ";charset=utf-8")
+//    @Transactional
+//    @ResponseStatus(OK)
+//    public List<ClientDto> readClientsFromPersonalTrainer(@PathVariable Long id) {
+//        PersonalTrainer personalTrainer = personalTrainerService.read(id);
+//        List<ClientDto> dtoList = new ArrayList<>();
+//        for (Client client : personalTrainer.getClients()) {
+//            dtoList.add(getMapper().map(client, ClientDto.class));
+//        }
+//        return dtoList;
+//    }
 
     private Mapper getMapper() {
         return DozerBeanMapperSingletonWrapper.getInstance();

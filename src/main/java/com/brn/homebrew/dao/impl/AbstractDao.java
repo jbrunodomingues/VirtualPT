@@ -10,8 +10,9 @@ public abstract class AbstractDao<T> {
 
     private SessionFactory sessionFactory;
 
-    public void create(T personalTrainer) {
-        getSession().save(personalTrainer);
+    @SuppressWarnings("unchecked")
+    public Long create(T entity) {
+        return (Long) getSession().save(entity);
     }
 
     @SuppressWarnings("unchecked")
