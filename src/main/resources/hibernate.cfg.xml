@@ -10,5 +10,6 @@
         <mapping class="com.brn.homebrew.entity.Person"/>
         <mapping class="com.brn.homebrew.entity.PersonalTrainer"/>
         <mapping class="com.brn.homebrew.entity.Client"/>
+        <mapping class="com.brn.homebrew.entity.PtClientAssociation"/>
     </session-factory>
 </hibernate-configuration>

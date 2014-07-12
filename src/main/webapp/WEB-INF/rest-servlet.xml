@@ -36,6 +36,7 @@
 
     <bean id="clientService" class="com.brn.homebrew.service.impl.ClientServiceImpl">
         <property name="clientDao" ref="clientDao"/>
+        <property name="ptClientAssociationDao" ref="ptClientAssociationDao"/>
     </bean>
 
     <bean id="clientDao" class="com.brn.homebrew.dao.impl.ClientDaoImpl">

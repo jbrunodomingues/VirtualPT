@@ -14,12 +14,12 @@ public class PtClientAssociation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "REFID_PERSONAL_TRAINER")
     private PersonalTrainer personalTrainer;
 
+    @ManyToOne
     @JoinColumn(name = "REFID_CLIENT")
-    @ManyToOne(cascade = CascadeType.ALL)
     private Client client;
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package com.brn.homebrew.dao.impl;
 
 import com.brn.homebrew.dao.PtClientAssociationDao;
+import com.brn.homebrew.entity.Client;
 import com.brn.homebrew.entity.PersonalTrainer;
 import com.brn.homebrew.entity.PtClientAssociation;
 import org.hibernate.Criteria;
@@ -24,6 +25,14 @@ public class PtClientAssociationDaoImpl extends AbstractDao<PtClientAssociation>
     public List<PtClientAssociation> readAllFromPersonalTrainer(PersonalTrainer personalTrainer) {
         Criteria criteria = getSession().createCriteria(getTargetClass());
         criteria.add(Restrictions.eq("personalTrainer", personalTrainer));
+        return criteria.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<PtClientAssociation> readAllFromClient(Client client) {
+        Criteria criteria = getSession().createCriteria(getTargetClass());
+        criteria.add(Restrictions.eq("client", client));
         return criteria.list();
     }
 

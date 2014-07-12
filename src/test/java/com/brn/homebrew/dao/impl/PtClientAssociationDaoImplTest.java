@@ -7,6 +7,7 @@ import com.brn.homebrew.entity.PtClientAssociation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:/test-dao.xml"})
+@DirtiesContext
 public class PtClientAssociationDaoImplTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
@@ -86,7 +88,20 @@ public class PtClientAssociationDaoImplTest extends AbstractTransactionalJUnit4S
         ptClientAssociationList = ptClientAssociationDao.readAllFromPersonalTrainer(personalTrainer);
         //then
         assertEquals(2, ptClientAssociationList.size());
+    }
 
+    @Test
+    public void shouldReallAllAssociationsFromClient() throws Exception {
+        //give
+        prepareDbWith3Pt3Clients3Association();
+        Client client = new Client();
+        client.setId(2l);
+        client.setFirstName("Fat");
+        client.setLastName("John");
+        //when
+        List<PtClientAssociation> ptClientAssociationList = ptClientAssociationDao.readAllFromClient(client);
+        //then
+        assertEquals(1, ptClientAssociationList.size());
     }
 
     @Test
