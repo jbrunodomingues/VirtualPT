@@ -25,10 +25,11 @@ public class ClientController {
     private ClientService clientService;
 
     @Transactional
-    @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public void create(@RequestBody Client client) {
-        clientService.create(client);
+    public Client create(@RequestBody Client client) {
+        Long clientId = clientService.create(client);
+        return clientService.read(clientId);
     }
 
     @Transactional

@@ -5,9 +5,6 @@
 
 <hibernate-configuration>
     <session-factory>
-        <mapping class="com.brn.homebrew.entity.PointGPS"/>
-        <mapping class="com.brn.homebrew.entity.Track"/>
-        <mapping class="com.brn.homebrew.entity.Person"/>
         <mapping class="com.brn.homebrew.entity.PersonalTrainer"/>
         <mapping class="com.brn.homebrew.entity.Client"/>
         <mapping class="com.brn.homebrew.entity.PtClientAssociation"/>

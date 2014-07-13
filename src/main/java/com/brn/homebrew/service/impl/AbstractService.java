@@ -9,8 +9,8 @@ public abstract class AbstractService<T> {
 
     protected Dao<T> dao;
 
-    public void create(T entity) {
-        dao.create(entity);
+    public Long create(T entity) {
+        return dao.create(entity);
     }
 
     public T read(Long id) {

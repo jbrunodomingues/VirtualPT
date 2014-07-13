@@ -30,7 +30,7 @@ public class AbstractServiceTest {
     public void shouldCreate() throws Exception {
         //given
         Entity entity = new Entity();
-        entity.setId(1l);
+        entity.setAttribute("testing");
         //when
         service.create(entity);
         //then
@@ -77,9 +77,14 @@ public class AbstractServiceTest {
     private class Entity {
 
         private Long id;
+        private String attribute;
 
         public void setId(Long id) {
             this.id = id;
+        }
+
+        public void setAttribute(String attribute) {
+            this.attribute = attribute;
         }
 
         @Override
@@ -89,13 +94,16 @@ public class AbstractServiceTest {
 
             Entity entity = (Entity) o;
 
-            return !(id != null ? !id.equals(entity.id) : entity.id != null);
+            return !(attribute != null ? !attribute.equals(entity.attribute) : entity.attribute != null)
+                    && !(id != null ? !id.equals(entity.id) : entity.id != null);
 
         }
 
         @Override
         public int hashCode() {
-            return id != null ? id.hashCode() : 0;
+            int result = id != null ? id.hashCode() : 0;
+            result = 31 * result + (attribute != null ? attribute.hashCode() : 0);
+            return result;
         }
     }
 

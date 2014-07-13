@@ -23,9 +23,6 @@
     <aop:aspectj-autoproxy/>
     <mvc:resources mapping="/static/**" location="static"/>
 
-    <bean id="trackManager" class="com.brn.homebrew.service.TrackManagerImpl"/>
-    <bean id="trackDAO" class="com.brn.homebrew.dao.TrackDAOImpl"/>
-
     <bean id="personalTrainerService" class="com.brn.homebrew.service.impl.PersonalTrainerServiceImpl">
         <constructor-arg ref="personalTrainerDao"/>
     </bean>

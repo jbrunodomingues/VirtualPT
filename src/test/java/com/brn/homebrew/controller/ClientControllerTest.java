@@ -45,15 +45,25 @@ public class ClientControllerTest {
         Client client = new Client();
         client.setFirstName("John");
         client.setLastName("Doe");
+        Client client1 = new Client();
+        client1.setId(1l);
+        client1.setFirstName("John");
+        client1.setLastName("Doe");
         ObjectMapper mapper = new ObjectMapper();
         String jsonObj = mapper.writeValueAsString(client);
+        when(clientService.create(client)).thenReturn(1l);
+        when(clientService.read(1l)).thenReturn(client1);
         //when
         ResultActions resultActions = mockMvc.perform(post("/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonObj)).andDo(print());
         //then
-        resultActions.andExpect(status().isOk());
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.lastName").value("Doe"))
+                .andExpect(jsonPath("$.firstName").value("John"));
         verify(clientService).create(client);
     }
 
