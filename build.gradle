@@ -10,8 +10,8 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 ext {
-    springframeworkVersion = '4.0.5.RELEASE'
-    springSecurityVersion = '3.2.3.RELEASE'
+    springframeworkVersion = '4.0.6.RELEASE'
+    springSecurityVersion = '3.2.4.RELEASE'
     hibernateVersion = '4.3.5.Final'
     junitVersion = '4.11'
     jacksonVersion = '2.3.3'
@@ -23,7 +23,7 @@ ext {
     dozerVersion = '5.5.1'
     hsqlDbVersion= '2.3.2'
     mockitoVersion = '1.9.5'
-    jaywayJsonpath = 'json-path:0.9.1'
+    jaywayJsonpath = '0.9.1'
 }
 
 repositories {
@@ -56,8 +56,6 @@ dependencies {
     compile "org.springframework.security:spring-security-config:$springSecurityVersion"
     compile "org.aspectj:aspectjrt:$aspectJVersion"
     compile "org.aspectj:aspectjweaver:$aspectJVersion"
-//    compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
-//    compile "org.codehaus.jackson:jackson-core-asl:$jacksonVersion"
     compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
     compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     compile "log4j:log4j:1.2.17"
@@ -67,5 +65,5 @@ dependencies {
     testCompile "org.springframework:spring-test:$springframeworkVersion"
     testCompile "org.hsqldb:hsqldb:$hsqlDbVersion"
     testCompile "org.mockito:mockito-all:$mockitoVersion"
-    testCompile "com.jayway.jsonpath:$jaywayJsonpath"
+    testCompile "com.jayway.jsonpath:json-path:$jaywayJsonpath"
 }
