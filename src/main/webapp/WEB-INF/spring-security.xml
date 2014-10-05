@@ -8,16 +8,51 @@
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <security:http auto-config="true">
-        <security:intercept-url pattern="/**" access="ROLE_CLIENT"/>
-        <!--<security:intercept-url pattern="/rest/**" access="ROLE_CLIENT"/>-->
-        <!--<security:form-login login-page="/login"/>-->
+    <security:http entry-point-ref="restAuthenticationEntryPoint">
+        <!--<security:intercept-url pattern="/api/admin/**" access="ROLE_ADMIN"/>-->
+        <security:custom-filter ref="authenticationProcessingFilter" before="FORM_LOGIN_FILTER"/>
+        <security:intercept-url pattern="/rest/**" access="ROLE_ADMIN"/>
+        <security:form-login
+                login-processing-url="/authenticate"
+                username-parameter="username"
+                password-parameter="password"
+                authentication-success-handler-ref="mySuccessHandler"
+                authentication-failure-handler-ref="myFailureHandler"/>
+        <security:logout logout-url="/logout" />
     </security:http>
 
+    <bean id="authenticationProcessingFilter" class="com.brn.homebrew.security.AuthenticationProcessingFilter">
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+
+    <bean id="mySuccessHandler"
+                class="com.brn.homebrew.security.RestAuthenticationSuccessHandler"/>
+
+    <bean id="restAuthenticationEntryPoint" class="com.brn.homebrew.security.RestAuthenticationEntryPoint">
+    </bean>
+
+    <bean id="myFailureHandler"
+                class="com.brn.homebrew.security.RestAuthenticationFailureHandler"/>
+
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider user-service-ref="userDetailsService"/>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="bruno" password="bruno" authorities="ROLE_ADMIN"/>
+                <security:user name="user" password="userPassword" authorities="ROLE_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
     </security:authentication-manager>
 
-    <bean id="userDetailsService" class="com.brn.homebrew.service.CustomUserDetailsService">
-    </bean>
+    <!--<security:http auto-config="true">-->
+        <!--<security:intercept-url pattern="/**" access="ROLE_CLIENT"/>-->
+        <!--&lt;!&ndash;<security:intercept-url pattern="/rest/**" access="ROLE_CLIENT"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<security:form-login login-page="/login"/>&ndash;&gt;-->
+    <!--</security:http>-->
+
+    <!--<security:authentication-manager alias="authenticationManager">-->
+        <!--<security:authentication-provider user-service-ref="userDetailsService"/>-->
+    <!--</security:authentication-manager>-->
+
+    <!--<bean id="userDetailsService" class="com.brn.homebrew.service.CustomUserDetailsService">-->
+    <!--</bean>-->
 </beans>

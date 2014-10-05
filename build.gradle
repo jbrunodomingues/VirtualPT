@@ -11,8 +11,9 @@ targetCompatibility = 1.7
 
 ext {
     springframeworkVersion = '4.0.6.RELEASE'
+    springDataVersion = '1.6.2.RELEASE'
     springSecurityVersion = '3.2.4.RELEASE'
-    hibernateVersion = '4.3.5.Final'
+    hibernateVersion = '4.3.6.Final'
     junitVersion = '4.11'
     jacksonVersion = '2.3.3'
     mysqlConnectorVersion = '5.1.30'
@@ -24,6 +25,7 @@ ext {
     hsqlDbVersion= '2.3.2'
     mockitoVersion = '1.9.5'
     jaywayJsonpath = '0.9.1'
+    guavaVersion = '17.0'
 }
 
 repositories {
@@ -60,6 +62,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     compile "log4j:log4j:1.2.17"
     compile "net.sf.dozer:dozer:$dozerVersion"
+    compile "com.google.guava:guava:$guavaVersion"
     providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
     testCompile "junit:junit:$junitVersion"
     testCompile "org.springframework:spring-test:$springframeworkVersion"
