@@ -1,6 +1,6 @@
 package com.brn.homebrew.controller;
 
-import com.brn.homebrew.entity.Client;
+import com.brn.homebrew.model.Client;
 import com.brn.homebrew.service.ClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;

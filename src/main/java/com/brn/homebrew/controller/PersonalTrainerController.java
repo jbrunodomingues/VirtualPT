@@ -1,7 +1,7 @@
 package com.brn.homebrew.controller;
 
 import com.brn.homebrew.controller.dto.PersonalTrainerDto;
-import com.brn.homebrew.entity.PersonalTrainer;
+import com.brn.homebrew.model.PersonalTrainer;
 import com.brn.homebrew.service.PersonalTrainerService;
 import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;

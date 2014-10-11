@@ -2,8 +2,8 @@ package com.brn.homebrew.service.impl;
 
 import com.brn.homebrew.dao.ClientDao;
 import com.brn.homebrew.dao.PtClientAssociationDao;
-import com.brn.homebrew.entity.Client;
-import com.brn.homebrew.entity.PtClientAssociation;
+import com.brn.homebrew.model.Client;
+import com.brn.homebrew.model.PtClientAssociation;
 import com.brn.homebrew.service.ClientService;
 
 import java.util.List;

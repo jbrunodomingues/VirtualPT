@@ -1,9 +1,9 @@
 package com.brn.homebrew.controller;
 
 import com.brn.homebrew.controller.dto.PtClientAssociationDto;
-import com.brn.homebrew.entity.Client;
-import com.brn.homebrew.entity.PersonalTrainer;
-import com.brn.homebrew.entity.PtClientAssociation;
+import com.brn.homebrew.model.Client;
+import com.brn.homebrew.model.PersonalTrainer;
+import com.brn.homebrew.model.PtClientAssociation;
 import com.brn.homebrew.service.ClientService;
 import com.brn.homebrew.service.PersonalTrainerService;
 import com.brn.homebrew.service.PtClientAssociationService;

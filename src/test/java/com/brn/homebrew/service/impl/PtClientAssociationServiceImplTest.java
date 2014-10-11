@@ -1,9 +1,9 @@
 package com.brn.homebrew.service.impl;
 
 import com.brn.homebrew.dao.PtClientAssociationDao;
-import com.brn.homebrew.entity.Client;
-import com.brn.homebrew.entity.PersonalTrainer;
-import com.brn.homebrew.entity.PtClientAssociation;
+import com.brn.homebrew.model.Client;
+import com.brn.homebrew.model.PersonalTrainer;
+import com.brn.homebrew.model.PtClientAssociation;
 import org.junit.Test;
 
 import java.util.ArrayList;

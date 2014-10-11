@@ -5,8 +5,8 @@
 
 <hibernate-configuration>
     <session-factory>
-        <mapping class="com.brn.homebrew.entity.PersonalTrainer"/>
-        <mapping class="com.brn.homebrew.entity.Client"/>
-        <mapping class="com.brn.homebrew.entity.PtClientAssociation"/>
+        <mapping class="com.brn.homebrew.model.PersonalTrainer"/>
+        <mapping class="com.brn.homebrew.model.Client"/>
+        <mapping class="com.brn.homebrew.model.PtClientAssociation"/>
     </session-factory>
 </hibernate-configuration>

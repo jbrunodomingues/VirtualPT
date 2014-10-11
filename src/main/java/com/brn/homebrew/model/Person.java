@@ -1,4 +1,4 @@
-package com.brn.homebrew.entity;
+package com.brn.homebrew.model;
 
 import javax.persistence.*;
 

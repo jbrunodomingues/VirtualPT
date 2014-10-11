@@ -1,7 +1,7 @@
 package com.brn.homebrew.dao.impl;
 
 import com.brn.homebrew.dao.ClientDao;
-import com.brn.homebrew.entity.Client;
+import com.brn.homebrew.model.Client;
 
 /**
  * @author Bruno Domingues

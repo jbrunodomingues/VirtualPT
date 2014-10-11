@@ -1,7 +1,7 @@
 package com.brn.homebrew.dao.impl;
 
 import com.brn.homebrew.dao.PersonalTrainerDao;
-import com.brn.homebrew.entity.PersonalTrainer;
+import com.brn.homebrew.model.PersonalTrainer;
 
 import java.util.List;
 

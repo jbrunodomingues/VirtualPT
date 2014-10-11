@@ -1,6 +1,6 @@
 package com.brn.homebrew.controller;
 
-import com.brn.homebrew.entity.Client;
+import com.brn.homebrew.model.Client;
 import com.brn.homebrew.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;

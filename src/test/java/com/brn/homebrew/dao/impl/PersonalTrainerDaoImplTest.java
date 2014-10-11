@@ -1,10 +1,11 @@
 package com.brn.homebrew.dao.impl;
 
 import com.brn.homebrew.dao.PersonalTrainerDao;
-import com.brn.homebrew.entity.PersonalTrainer;
+import com.brn.homebrew.model.PersonalTrainer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:/test-dao.xml"})
+@DirtiesContext
 public class PersonalTrainerDaoImplTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired

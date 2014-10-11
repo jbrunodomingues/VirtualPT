@@ -1,6 +1,6 @@
 package com.brn.homebrew.service;
 
-import com.brn.homebrew.entity.Client;
+import com.brn.homebrew.model.Client;
 
 /**
  * @author Bruno Domingues

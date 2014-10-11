@@ -1,12 +1,12 @@
-package com.brn.homebrew.security;
+package com.brn.homebrew.controller.dto;
 
 /**
  * @author Bruno Domingues
  */
-public class AuthenticationFailureDto {
+public class BadCredentialsErrorDto {
 
-    private int code;
-    private String message;
+    public int code;
+    public String message;
 
     public int getCode() {
         return code;

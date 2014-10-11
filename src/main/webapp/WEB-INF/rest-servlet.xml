@@ -21,7 +21,7 @@
     <tx:annotation-driven/>
     <mvc:annotation-driven/>
     <aop:aspectj-autoproxy/>
-    <mvc:resources mapping="/static/**" location="static"/>
+    <!--<mvc:resources mapping="/static/**" location="static"/>-->
 
     <bean id="personalTrainerService" class="com.brn.homebrew.service.impl.PersonalTrainerServiceImpl">
         <constructor-arg ref="personalTrainerDao"/>
@@ -46,6 +46,9 @@
 
     <bean id="ptClientAssociationDao" class="com.brn.homebrew.dao.impl.PtClientAssociationDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="tokenService" class="com.brn.homebrew.service.impl.TokenServiceImpl">
     </bean>
 
     <!--<bean id="lazyLoadingAspect" class="com.brn.homebrew.infrastructure.LazyLoadingAspect">-->

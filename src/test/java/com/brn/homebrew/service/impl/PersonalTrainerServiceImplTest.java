@@ -1,7 +1,7 @@
 package com.brn.homebrew.service.impl;
 
 import com.brn.homebrew.dao.PersonalTrainerDao;
-import com.brn.homebrew.entity.PersonalTrainer;
+import com.brn.homebrew.model.PersonalTrainer;
 import com.brn.homebrew.service.PersonalTrainerService;
 import org.junit.Test;
 

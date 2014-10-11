@@ -1,6 +1,6 @@
 package com.brn.homebrew.controller;
 
-import com.brn.homebrew.entity.PersonalTrainer;
+import com.brn.homebrew.model.PersonalTrainer;
 import com.brn.homebrew.service.PersonalTrainerService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

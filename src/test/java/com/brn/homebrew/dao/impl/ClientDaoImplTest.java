@@ -1,6 +1,6 @@
 package com.brn.homebrew.dao.impl;
 
-import com.brn.homebrew.entity.Client;
+import com.brn.homebrew.model.Client;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
