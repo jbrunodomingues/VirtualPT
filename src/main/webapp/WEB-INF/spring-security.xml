@@ -20,7 +20,6 @@
     </security:http>
 
     <bean id="authenticationProcessingFilter" class="com.brn.homebrew.security.AuthenticationProcessingFilter">
-        <property name="authenticationManager" ref="authenticationManager"/>
     </bean>
 
     <bean id="unauthorizedEntryPoint" class="com.brn.homebrew.security.UnauthorizedEntryPoint">
