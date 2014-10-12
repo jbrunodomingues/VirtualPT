@@ -20,18 +20,20 @@
     </security:http>
 
     <bean id="authenticationProcessingFilter" class="com.brn.homebrew.security.AuthenticationProcessingFilter">
+        <property name="tokenService" ref="tokenService"/>
+        <property name="userDetailsService" ref="userDetailsService"/>
     </bean>
 
     <bean id="unauthorizedEntryPoint" class="com.brn.homebrew.security.UnauthorizedEntryPoint">
     </bean>
 
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="bruno" password="bruno" authorities="ROLE_ADMIN"/>
-                <security:user name="username" password="password" authorities="ROLE_ADMIN"/>
-                <security:user name="user" password="userPassword" authorities="ROLE_USER"/>
-            </security:user-service>
+        <security:authentication-provider user-service-ref="userDetailsService">
+            <!--<security:user-service>-->
+                <!--<security:user name="bruno" password="bruno" authorities="ROLE_ADMIN"/>-->
+                <!--<security:user name="username" password="password" authorities="ROLE_ADMIN"/>-->
+                <!--<security:user name="user" password="userPassword" authorities="ROLE_USER"/>-->
+            <!--</security:user-service>-->
         </security:authentication-provider>
     </security:authentication-manager>
 

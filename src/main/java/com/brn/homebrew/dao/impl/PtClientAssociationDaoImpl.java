@@ -5,9 +5,10 @@ import com.brn.homebrew.model.Client;
 import com.brn.homebrew.model.PersonalTrainer;
 import com.brn.homebrew.model.PtClientAssociation;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
+
+import static org.hibernate.criterion.Restrictions.eq;
 
 /**
  * @author Bruno Domingues
@@ -24,7 +25,7 @@ public class PtClientAssociationDaoImpl extends AbstractDao<PtClientAssociation>
     @Override
     public List<PtClientAssociation> readAllFromPersonalTrainer(PersonalTrainer personalTrainer) {
         Criteria criteria = getSession().createCriteria(getTargetClass());
-        criteria.add(Restrictions.eq("personalTrainer", personalTrainer));
+        criteria.add(eq("personalTrainer", personalTrainer));
         return criteria.list();
     }
 
@@ -32,7 +33,7 @@ public class PtClientAssociationDaoImpl extends AbstractDao<PtClientAssociation>
     @Override
     public List<PtClientAssociation> readAllFromClient(Client client) {
         Criteria criteria = getSession().createCriteria(getTargetClass());
-        criteria.add(Restrictions.eq("client", client));
+        criteria.add(eq("client", client));
         return criteria.list();
     }
 

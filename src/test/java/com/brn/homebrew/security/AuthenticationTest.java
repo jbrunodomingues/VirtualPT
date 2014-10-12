@@ -1,12 +1,11 @@
-package com.brn.homebrew.controller;
+package com.brn.homebrew.security;
 
-import com.brn.homebrew.controller.dto.AuthenticationDto;
 import com.brn.homebrew.service.TokenService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,13 +19,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -37,7 +35,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/rest-servlet.xml", "classpath:test-dao.xml", "classpath:test.xml"})
 @WebAppConfiguration
 @DirtiesContext
-public class AuthenticationControllerTest {
+public class AuthenticationTest {
 
     MockMvc mockMvc;
     @Autowired
@@ -55,44 +53,34 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    public void shouldFailAuthenticationWithWrongCredentials() throws Exception {
+    public void shouldAccessResource() throws Exception {
         //given
-        AuthenticationDto authenticationDto = new AuthenticationDto();
-        authenticationDto.setUsername("username");
-        authenticationDto.setPassword("wrongPassword");
-        User user = new User("username", "password", Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
+        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_ADMIN");
+        List<GrantedAuthority> grantedAuthorityList = Collections.<GrantedAuthority>singletonList(role);
+        User user = new User("username", "password", grantedAuthorityList);
+        when(tokenService.getUser("validToken")).thenReturn("username");
         when(userDetailsService.loadUserByUsername("username")).thenReturn(user);
-        String authenticationJson = new ObjectMapper().writeValueAsString(authenticationDto);
         //when
-        ResultActions resultActions = mockMvc.perform(post("/authenticate")
+        ResultActions resultActions = mockMvc.perform(get("/testingAccessResource")
                 .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .content(authenticationJson))
-                .andDo(print());
-        //then
-        resultActions.andExpect(status().isUnauthorized());
-        resultActions.andExpect(jsonPath("$.code").value(UNAUTHORIZED.value()));
-        resultActions.andExpect(jsonPath("$.message").value("bad credentials"));
-    }
-
-    @Test
-    public void shouldAuthenticateAndReceiveToken() throws Exception {
-        //given
-        AuthenticationDto authenticationDto = new AuthenticationDto();
-        authenticationDto.setUsername("username");
-        authenticationDto.setPassword("password");
-        User user = new User("username", "password", Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
-        when(userDetailsService.loadUserByUsername("username")).thenReturn(user);
-        String authenticationJson = new ObjectMapper().writeValueAsString(authenticationDto);
-        when(tokenService.createTokenForUser("username")).thenReturn("123456");
-        //when
-        ResultActions resultActions = mockMvc.perform(post("/authenticate")
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .content(authenticationJson))
+                .header("X-Auth-Token", "validToken")
+                .accept(APPLICATION_JSON))
                 .andDo(print());
         //then
         resultActions.andExpect(status().isOk());
-        resultActions.andExpect(jsonPath("$.token").value("123456"));
+    }
+
+    @Test
+    public void shouldBeDeniedResourceAccess() throws Exception {
+        //given
+        when(tokenService.getUser("validToken")).thenReturn("username");
+        //when
+        ResultActions resultActions = mockMvc.perform(get("/testingAccessResource")
+                .contentType(APPLICATION_JSON)
+                .header("X-Auth-Token", "invalidToken")
+                .accept(APPLICATION_JSON))
+                .andDo(print());
+        //then
+        resultActions.andExpect(status().isForbidden());
     }
 }

@@ -10,4 +10,8 @@
     <bean id="tokenService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="com.brn.homebrew.service.TokenService"/>
     </bean>
+
+    <bean id="userDetailsService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.springframework.security.core.userdetails.UserDetailsService"/>
+    </bean>
 </beans>

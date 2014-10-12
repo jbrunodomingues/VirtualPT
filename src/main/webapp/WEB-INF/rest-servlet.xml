@@ -51,6 +51,14 @@
     <bean id="tokenService" class="com.brn.homebrew.service.impl.TokenServiceImpl">
     </bean>
 
+    <bean id="userDetailsService" class="com.brn.homebrew.service.impl.UserDetailsServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="userDao" class="com.brn.homebrew.dao.impl.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <!--<bean id="lazyLoadingAspect" class="com.brn.homebrew.infrastructure.LazyLoadingAspect">-->
     <!--</bean>-->
 
