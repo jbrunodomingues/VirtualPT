@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class TokenServiceImpl implements TokenService {
 
-    private static LoadingCache<String, String> graphs;
+    private static LoadingCache<String, String> tokenUsernameCacheMap;
     static {
-        graphs = CacheBuilder.newBuilder()
+        tokenUsernameCacheMap = CacheBuilder.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES)
                 .maximumSize(1000)
                 .build(
@@ -33,14 +33,14 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String createTokenForUser(String username) {
         String token = new BigInteger(130, random).toString(32);
-        graphs.put(token, username);
+        tokenUsernameCacheMap.put(token, username);
         return token;
     }
 
     @Override
     public String tryToGetUsernameForToken(String token) {
         try {
-            return graphs.get(token);
+            return tokenUsernameCacheMap.get(token);
         } catch (Exception e) {
             //ignore this exception on purpose. It means that key wasn't found
             return null;
