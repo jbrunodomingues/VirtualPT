@@ -30,7 +30,7 @@ public class AuthenticationProcessingFilter extends GenericFilterBean {
         }
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("X-Auth-Token");
-        String username = tokenService.getUser(token);
+        String username = tokenService.tryToGetUsernameForToken(token);
         if (username != null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authentication = createAuthentication(httpServletRequest, userDetails);

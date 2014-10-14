@@ -7,5 +7,5 @@ public interface TokenService {
 
     String createTokenForUser(String username);
 
-    String getUser(String token);
+    String tryToGetUsernameForToken(String token);
 }

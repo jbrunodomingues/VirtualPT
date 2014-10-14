@@ -58,7 +58,7 @@ public class AuthenticationTest {
         SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_ADMIN");
         List<GrantedAuthority> grantedAuthorityList = Collections.<GrantedAuthority>singletonList(role);
         User user = new User("username", "password", grantedAuthorityList);
-        when(tokenService.getUser("validToken")).thenReturn("username");
+        when(tokenService.tryToGetUsernameForToken("validToken")).thenReturn("username");
         when(userDetailsService.loadUserByUsername("username")).thenReturn(user);
         //when
         ResultActions resultActions = mockMvc.perform(get("/testingAccessResource")
@@ -73,7 +73,7 @@ public class AuthenticationTest {
     @Test
     public void shouldBeDeniedResourceAccess() throws Exception {
         //given
-        when(tokenService.getUser("validToken")).thenReturn("username");
+        when(tokenService.tryToGetUsernameForToken("validToken")).thenReturn("username");
         //when
         ResultActions resultActions = mockMvc.perform(get("/testingAccessResource")
                 .contentType(APPLICATION_JSON)
