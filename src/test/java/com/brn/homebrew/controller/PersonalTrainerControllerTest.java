@@ -95,40 +95,6 @@ public class PersonalTrainerControllerTest {
         assertEquals(expectedList, actualList);
     }
 
-//    @Test
-//    public void shouldReadClientsFromPersonalTrainer() throws Exception {
-//        //given
-//        PersonalTrainer personalTrainer = createPersonalTrainer();
-//        addClientsToPersonalTrainer(personalTrainer);
-//        when(personalTrainerService.read(1L)).thenReturn(personalTrainer);
-//        //when
-//        ResultActions resultActions = mockMvc.perform(get("/personalTrainers/{id}/clients", 1)
-//                .contentType(APPLICATION_JSON)
-//                .accept(APPLICATION_JSON))
-//                .andDo(print());
-//        //then
-//        resultActions.andExpect(status().isOk());
-//        String jsonResponse = getJsonResponseAsString(resultActions);
-//        Set<Client> expectedClients = personalTrainer.getClients();
-//        ObjectMapper mapper = new ObjectMapper();
-//        Set<Client> actualClients = mapper.readValue(jsonResponse, new TypeReference<Set<Client>>() {
-//        });
-//        assertEquals(expectedClients, actualClients);
-//    }
-//
-//    private void addClientsToPersonalTrainer(PersonalTrainer personalTrainer) {
-//        Client client = new Client();
-//        client.setId(2L);
-//        client.setFirstName("Fat");
-//        client.setLastName("Joe");
-//        personalTrainer.getClients().add(client);
-//        client = new Client();
-//        client.setId(3L);
-//        client.setFirstName("Chubby");
-//        client.setLastName("Devlin");
-//        personalTrainer.getClients().add(client);
-//    }
-
     private String getJsonResponseAsString(ResultActions resultActions) throws UnsupportedEncodingException {
         return resultActions.andReturn().getResponse().getContentAsString();
     }

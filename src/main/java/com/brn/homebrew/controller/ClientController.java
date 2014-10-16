@@ -2,6 +2,7 @@ package com.brn.homebrew.controller;
 
 import com.brn.homebrew.model.Client;
 import com.brn.homebrew.service.ClientService;
+import com.brn.homebrew.service.MappingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,8 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private MappingService mappingService;
 
     @Transactional
     @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -47,9 +50,11 @@ public class ClientController {
     @Transactional
     @RequestMapping(value = "{id}", method = PUT, consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public void update(@PathVariable Long id, @RequestBody Client client) {
-        client.setId(id);
+    public Client update(@PathVariable Long id, @RequestBody Client clientDto) {
+        Client client = clientService.read(id);
+        mappingService.map(clientDto, client);
         clientService.update(client);
+        return client;
     }
 
     @Transactional
@@ -73,5 +78,9 @@ public class ClientController {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public String handleException1(HttpMessageNotReadableException ex) {
         return ex.getMessage();
+    }
+
+    public void setMappingService(MappingService mappingService) {
+        this.mappingService = mappingService;
     }
 }

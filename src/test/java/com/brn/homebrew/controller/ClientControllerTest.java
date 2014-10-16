@@ -1,7 +1,10 @@
 package com.brn.homebrew.controller;
 
+import com.brn.homebrew.controller.dto.ClientDto;
 import com.brn.homebrew.model.Client;
 import com.brn.homebrew.service.ClientService;
+import com.brn.homebrew.service.MappingService;
+import com.brn.homebrew.service.impl.MappingServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +32,7 @@ public class ClientControllerTest {
     MockMvc mockMvc;
     @Mock
     ClientService clientService;
+    MappingService mappingService = new MappingServiceImpl();
     @InjectMocks
     ClientController clientController;
 
@@ -37,34 +41,38 @@ public class ClientControllerTest {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = standaloneSetup(clientController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
+        clientController.setMappingService(mappingService);
     }
 
     @Test
     public void shouldCreateClient() throws Exception {
         //given
-        Client client = new Client();
-        client.setFirstName("John");
-        client.setLastName("Doe");
-        Client client1 = new Client();
-        client1.setId(1l);
-        client1.setFirstName("John");
-        client1.setLastName("Doe");
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonObj = mapper.writeValueAsString(client);
-        when(clientService.create(client)).thenReturn(1l);
-        when(clientService.read(1l)).thenReturn(client1);
+        ClientDto clientDto = new ClientDto();
+        clientDto.setFirstName("John");
+        clientDto.setLastName("Doe");
+        Client clientToBeCreated = new Client();
+        clientToBeCreated.setFirstName("John");
+        clientToBeCreated.setLastName("Doe");
+        Client clientToBeReturned = new Client();
+        clientToBeReturned.setId(1L);
+        clientToBeReturned.setFirstName("John");
+        clientToBeReturned.setLastName("Doe");
+        String clientJson = new ObjectMapper().writeValueAsString(clientDto);
+        when(clientService.create(clientToBeCreated)).thenReturn(1l);
+        when(clientService.read(1l)).thenReturn(clientToBeReturned);
         //when
         ResultActions resultActions = mockMvc.perform(post("/clients")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(jsonObj)).andDo(print());
+                .content(clientJson))
+                .andDo(print());
         //then
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.lastName").value("Doe"))
-                .andExpect(jsonPath("$.firstName").value("John"));
-        verify(clientService).create(client);
+                .andExpect(jsonPath("$.firstName").value("John"))
+                .andExpect(jsonPath("$.lastName").value("Doe"));
+        verify(clientService).create(clientToBeCreated);
     }
 
     @Test
@@ -78,33 +86,45 @@ public class ClientControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(get("/clients/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
         //then
         resultActions
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.lastName").value("Doe"))
-                .andExpect(jsonPath("$.firstName").value("John"))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.firstName").value("John"))
+                .andExpect(jsonPath("$.lastName").value("Doe"));
     }
 
     @Test
     public void shouldUpdateTheClient() throws Exception {
         //given
-        Client client = new Client();
-        client.setFirstName("John");
-        client.setLastName("Doe");
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonObj = mapper.writeValueAsString(client);
+        Client existingClient = new Client();
+        existingClient.setId(1l);
+        existingClient.setFirstName("John");
+        existingClient.setLastName("Doe");
+        Client clientToUpdate = new Client();
+        clientToUpdate.setId(1l);
+        clientToUpdate.setFirstName("John");
+        clientToUpdate.setLastName("Tosvalds");
+        ClientDto clientDto = new ClientDto();
+        clientDto.setLastName("Tosvalds");
+        String jsonObj = new ObjectMapper().writeValueAsString(clientDto);
+        when(clientService.read(1l)).thenReturn(existingClient);
         //when
         ResultActions resultActions = mockMvc.perform(put("/clients/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(jsonObj)).andDo(print());
+                .content(jsonObj))
+                .andDo(print());
         //then
-        client.setId(1L);
-        resultActions.andExpect(status().isOk());
-        verify(clientService).update(client);
+        existingClient.setId(1L);
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.firstName").value("John"))
+                .andExpect(jsonPath("$.lastName").value("Tosvalds"));
+        verify(clientService).update(existingClient);
     }
 
     @Test
@@ -118,9 +138,9 @@ public class ClientControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(delete("/clients/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
         //then
-        client.setId(1L);
         resultActions.andExpect(status().isOk());
         verify(clientService).delete(client);
     }

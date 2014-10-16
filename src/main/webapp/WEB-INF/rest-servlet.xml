@@ -55,6 +55,9 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
+    <bean id="mappingService" class="com.brn.homebrew.service.impl.MappingServiceImpl">
+    </bean>
+
     <bean id="userDao" class="com.brn.homebrew.dao.impl.UserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>

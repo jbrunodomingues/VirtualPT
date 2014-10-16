@@ -34,7 +34,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
  * @author Bruno Domingues
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/rest-servlet.xml", "classpath:test-dao.xml", "classpath:test.xml"})
+@ContextConfiguration({
+        "file:src/main/webapp/WEB-INF/rest-servlet.xml",
+        "classpath:test-dao.xml",
+        "classpath:test.xml"})
 @WebAppConfiguration
 @DirtiesContext
 public class AuthenticationControllerTest {
