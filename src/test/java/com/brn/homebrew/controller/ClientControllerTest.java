@@ -41,7 +41,7 @@ public class ClientControllerTest {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = standaloneSetup(clientController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
-        clientController.setMappingService(mappingService);
+        ControllerTestsHelper.setDependencyUsingReflection(clientController, "mappingService", mappingService);
     }
 
     @Test
@@ -111,6 +111,7 @@ public class ClientControllerTest {
         clientDto.setLastName("Tosvalds");
         String jsonObj = new ObjectMapper().writeValueAsString(clientDto);
         when(clientService.read(1l)).thenReturn(existingClient);
+        when(clientService.read(1l)).thenReturn(clientToUpdate);
         //when
         ResultActions resultActions = mockMvc.perform(put("/clients/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -124,7 +125,7 @@ public class ClientControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.firstName").value("John"))
                 .andExpect(jsonPath("$.lastName").value("Tosvalds"));
-        verify(clientService).update(existingClient);
+        verify(clientService).update(clientToUpdate);
     }
 
     @Test

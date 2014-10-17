@@ -6,4 +6,6 @@ package com.brn.homebrew.service;
 public interface MappingService {
 
     void map(Object source, Object destination);
+
+    <T> T map(Object source, Class<T> destinationClass);
 }
