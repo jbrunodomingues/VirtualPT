@@ -5,7 +5,7 @@ package com.brn.homebrew.service;
  */
 public interface Service<T> {
 
-    Long create(T client);
+    Long create(T entity);
 
     T read(Long id);
 

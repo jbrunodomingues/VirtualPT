@@ -11,12 +11,12 @@ import java.util.List;
  */
 public class PersonalTrainerServiceImpl extends AbstractService<PersonalTrainer> implements PersonalTrainerService {
 
-    public PersonalTrainerServiceImpl(PersonalTrainerDao personalTrainerDao) {
-        setDao(personalTrainerDao);
-    }
-
     @Override
     public List<PersonalTrainer> readAll() {
         return ((PersonalTrainerDao) dao).readAll();
+    }
+
+    public void setPersonalTrainerDao(PersonalTrainerDao personalTrainerDao) {
+        setDao(personalTrainerDao);
     }
 }

@@ -9,6 +9,7 @@ import com.brn.homebrew.model.PtClientAssociation;
 import com.brn.homebrew.service.ClientService;
 import com.brn.homebrew.service.PersonalTrainerService;
 import com.brn.homebrew.service.PtClientAssociationService;
+import com.brn.homebrew.service.impl.MappingServiceImpl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dozer.DozerBeanMapperSingletonWrapper;
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -54,52 +56,52 @@ public class PtClientAssociationControllerTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = standaloneSetup(ptClientAssociationController)
-                .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
+                .setMessageConverters(new MappingJackson2HttpMessageConverter())
+                .addInterceptors()
+                        .build();
+
+        ControllerTestsHelper.setDependencyUsingReflection(ptClientAssociationController, "mappingService", new MappingServiceImpl());
     }
 
     @Test
     public void shouldCreateAssociation() throws Exception {
         //given
-        PersonalTrainer personalTrainer = createPersonalTrainer();
-        Client client = createClient(2l, "Fat", "Joe");
-        PtClientAssociation ptClientAssociation = new PtClientAssociation();
-        ptClientAssociation.setPersonalTrainer(personalTrainer);
-        ptClientAssociation.setClient(client);
-        PtClientAssociationDto associationDto = createPtClientAssociationDto();
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonObj = mapper.writeValueAsString(associationDto);
-        when(personalTrainerService.read(1l)).thenReturn(personalTrainer);
-        when(clientService.read(2l)).thenReturn(client);
+        PtClientAssociation ptClientAssociationCreated = new PtClientAssociation();
+        ptClientAssociationCreated.setId(1l);
+        ptClientAssociationCreated.setPersonalTrainer(createPersonalTrainer());
+        ptClientAssociationCreated.setClient(createClient());
+        PersonalTrainerDto personalTrainerDto = new PersonalTrainerDto();
+        personalTrainerDto.setId(1l);
+        ClientDto clientDto = new ClientDto();
+        clientDto.setId(2l);
+        PtClientAssociationDto ptClientAssociationDto = new PtClientAssociationDto();
+        ptClientAssociationDto.setClient(clientDto);
+        ptClientAssociationDto.setPersonalTrainer(personalTrainerDto);
+        String ptClientAssociationJson = new ObjectMapper().writeValueAsString(ptClientAssociationDto);
+        when(ptClientAssociationService.create(1l, 2l)).thenReturn(1l);
+        when(ptClientAssociationService.read(1l)).thenReturn(ptClientAssociationCreated);
         ResultActions resultActions = mockMvc.perform(post("/ptClientAssociations")
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .content(jsonObj))
+                .content(ptClientAssociationJson))
                 .andDo(print());
         //then
-        resultActions.andExpect(status().isOk());
-        verify(ptClientAssociationService).create(ptClientAssociation);
-    }
-
-    private PtClientAssociationDto createPtClientAssociationDto() {
-        ClientDto client = new ClientDto();
-        client.setId(2l);
-        client.setFirstName("John");
-        client.setLastName("Doe");
-        PersonalTrainerDto personalTrainer = new PersonalTrainerDto();
-        personalTrainer.setId(1l);
-        personalTrainer.setFirstName("Goncalo");
-        personalTrainer.setLastName("Mosqueira");
-        PtClientAssociationDto association = new PtClientAssociationDto();
-        association.setClient(client);
-        association.setPersonalTrainer(personalTrainer);
-        return association;
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.personalTrainer.id").value(1))
+                .andExpect(jsonPath("$.personalTrainer.firstName").value("John"))
+                .andExpect(jsonPath("$.personalTrainer.lastName").value("Doe"))
+                .andExpect(jsonPath("$.client.id").value(2))
+                .andExpect(jsonPath("$.client.firstName").value("Fat"))
+                .andExpect(jsonPath("$.client.lastName").value("Joe"));
     }
 
     @Test
     public void shouldDelete() throws Exception {
         //given
         PersonalTrainer personalTrainer = createPersonalTrainer();
-        Client client = createClient(2l, "Fat", "Joe");
+        Client client = createClient();
         PtClientAssociation ptClientAssociation = new PtClientAssociation();
         ptClientAssociation.setId(1l);
         ptClientAssociation.setPersonalTrainer(personalTrainer);
@@ -123,8 +125,8 @@ public class PtClientAssociationControllerTest {
         ptDto.setFirstName("John");
         ptDto.setLastName("Doe");
         PersonalTrainer pt = createPersonalTrainer();
-        Client client1 = createClient(2l, "Fat", "Joe");
-        Client client2 = createClient(3l, "Chubby", "Mike");
+        Client client1 = createClient();
+        Client client2 = createClient2();
         List<PtClientAssociation> associationList = new ArrayList<>();
         addAssociationToList(1l, pt, client1, associationList);
         addAssociationToList(2l, pt, client2, associationList);
@@ -158,7 +160,7 @@ public class PtClientAssociationControllerTest {
         clientDto.setFirstName("Fat");
         clientDto.setLastName("Joe");
         PersonalTrainer pt = createPersonalTrainer();
-        Client client1 = createClient(2l, "Fat", "Joe");
+        Client client1 = createClient();
         List<PtClientAssociation> associationList = new ArrayList<>();
         addAssociationToList(1l, pt, client1, associationList);
         when(clientService.read(2l)).thenReturn(client1);
@@ -193,11 +195,19 @@ public class PtClientAssociationControllerTest {
     }
 
 
-    private Client createClient(long id, String firstName, String lastName) {
+    private Client createClient() {
         Client client = new Client();
-        client.setId(id);
-        client.setFirstName(firstName);
-        client.setLastName(lastName);
+        client.setId(2l);
+        client.setFirstName("Fat");
+        client.setLastName("Joe");
+        return client;
+    }
+
+    private Client createClient2() {
+        Client client = new Client();
+        client.setId(3l);
+        client.setFirstName("Chubby");
+        client.setLastName("Becky");
         return client;
     }
 

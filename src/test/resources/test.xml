@@ -14,4 +14,20 @@
     <bean id="userDetailsService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="org.springframework.security.core.userdetails.UserDetailsService"/>
     </bean>
+
+    <bean id="clientDao" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.brn.homebrew.dao.ClientDao"/>
+    </bean>
+
+    <bean id="personalTrainerDao" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.brn.homebrew.dao.PersonalTrainerDao"/>
+    </bean>
+
+    <bean id="ptClientAssociationDao" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.brn.homebrew.dao.PtClientAssociationDao"/>
+    </bean>
+
+    <bean id="userDao" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.brn.homebrew.dao.UserDao"/>
+    </bean>
 </beans>

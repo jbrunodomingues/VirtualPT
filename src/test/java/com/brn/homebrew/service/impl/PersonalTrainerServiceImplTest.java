@@ -2,7 +2,6 @@ package com.brn.homebrew.service.impl;
 
 import com.brn.homebrew.dao.PersonalTrainerDao;
 import com.brn.homebrew.model.PersonalTrainer;
-import com.brn.homebrew.service.PersonalTrainerService;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -31,9 +30,10 @@ public class PersonalTrainerServiceImplTest {
         personalTrainer.setFirstName("Janice");
         personalTrainer.setLastName("Joplin");
         expected.add(personalTrainer);
-        PersonalTrainerDao daoMock = mock(PersonalTrainerDao.class);
-        when(daoMock.readAll()).thenReturn(expected);
-        PersonalTrainerService personalTrainerService = new PersonalTrainerServiceImpl(daoMock);
+        PersonalTrainerDao personalTrainerDaoMock = mock(PersonalTrainerDao.class);
+        when(personalTrainerDaoMock.readAll()).thenReturn(expected);
+        PersonalTrainerServiceImpl personalTrainerService = new PersonalTrainerServiceImpl();
+        personalTrainerService.setPersonalTrainerDao(personalTrainerDaoMock);
         //when
         List<PersonalTrainer> actual = personalTrainerService.readAll();
         //then

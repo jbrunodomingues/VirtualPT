@@ -3,7 +3,6 @@ package com.brn.homebrew.controller;
 import com.brn.homebrew.controller.dto.ClientDto;
 import com.brn.homebrew.model.Client;
 import com.brn.homebrew.service.ClientService;
-import com.brn.homebrew.service.MappingService;
 import com.brn.homebrew.service.impl.MappingServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -32,7 +31,6 @@ public class ClientControllerTest {
     MockMvc mockMvc;
     @Mock
     ClientService clientService;
-    MappingService mappingService = new MappingServiceImpl();
     @InjectMocks
     ClientController clientController;
 
@@ -41,7 +39,7 @@ public class ClientControllerTest {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = standaloneSetup(clientController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
-        ControllerTestsHelper.setDependencyUsingReflection(clientController, "mappingService", mappingService);
+        ControllerTestsHelper.setDependencyUsingReflection(clientController, "mappingService", new MappingServiceImpl());
     }
 
     @Test

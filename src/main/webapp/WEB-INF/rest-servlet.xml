@@ -24,7 +24,7 @@
     <!--<mvc:resources mapping="/static/**" location="static"/>-->
 
     <bean id="personalTrainerService" class="com.brn.homebrew.service.impl.PersonalTrainerServiceImpl">
-        <constructor-arg ref="personalTrainerDao"/>
+        <property name="personalTrainerDao" ref="personalTrainerDao"/>
     </bean>
 
     <bean id="personalTrainerDao" class="com.brn.homebrew.dao.impl.PersonalTrainerDaoImpl">
@@ -41,7 +41,9 @@
     </bean>
 
     <bean id="ptClientAssociationService" class="com.brn.homebrew.service.impl.PtClientAssociationServiceImpl">
-        <property name="dao" ref="ptClientAssociationDao"/>
+        <property name="ptClientAssociationDao" ref="ptClientAssociationDao"/>
+        <property name="personalTrainerDao" ref="personalTrainerDao"/>
+        <property name="clientDao" ref="clientDao"/>
     </bean>
 
     <bean id="ptClientAssociationDao" class="com.brn.homebrew.dao.impl.PtClientAssociationDaoImpl">

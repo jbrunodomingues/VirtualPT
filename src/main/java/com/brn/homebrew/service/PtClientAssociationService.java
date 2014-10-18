@@ -14,4 +14,6 @@ public interface PtClientAssociationService extends Service<PtClientAssociation>
     List<PtClientAssociation> readAllFromPersonalTrainer(PersonalTrainer personalTrainer);
 
     List<PtClientAssociation> readAllFromClient(Client client);
+
+    Long create(long personalTrainerId, long clientId);
 }

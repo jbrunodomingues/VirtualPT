@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
         "classpath:test.xml"})
 @WebAppConfiguration
 @DirtiesContext
-public class AuthenticationControllerTest {
+public class AuthenticationControllerIntegrationTest {
 
     MockMvc mockMvc;
     @Autowired

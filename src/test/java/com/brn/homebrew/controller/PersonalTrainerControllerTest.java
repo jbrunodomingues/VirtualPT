@@ -2,8 +2,7 @@ package com.brn.homebrew.controller;
 
 import com.brn.homebrew.model.PersonalTrainer;
 import com.brn.homebrew.service.PersonalTrainerService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.brn.homebrew.service.impl.MappingServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -13,15 +12,14 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -41,24 +39,25 @@ public class PersonalTrainerControllerTest {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = standaloneSetup(personalTrainerController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
+        ControllerTestsHelper.setDependencyUsingReflection(personalTrainerController, "mappingService", new MappingServiceImpl());
     }
 
     @Test
     public void shouldRead() throws Exception {
         //given
-        PersonalTrainer expected = createPersonalTrainer();
-        when(personalTrainerService.read(1L)).thenReturn(expected);
+        PersonalTrainer personalTrainer = createPersonalTrainer();
+        when(personalTrainerService.read(1L)).thenReturn(personalTrainer);
         //when
         ResultActions resultActions = mockMvc.perform(get("/personalTrainers/{id}", 1)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON))
                 .andDo(print());
         //then
-        resultActions.andExpect(status().isOk());
-        String jsonResponse = getJsonResponseAsString(resultActions);
-        ObjectMapper mapper = new ObjectMapper();
-        PersonalTrainer actual = mapper.readValue(jsonResponse, PersonalTrainer.class);
-        assertEquals(expected, actual);
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1) )
+                .andExpect(jsonPath("$.firstName").value("John"))
+                .andExpect(jsonPath("$.lastName").value("Doe"));
     }
 
     private PersonalTrainer createPersonalTrainer() {
@@ -69,33 +68,34 @@ public class PersonalTrainerControllerTest {
         return expected;
     }
 
+    private PersonalTrainer createPersonalTrainer2() {
+        PersonalTrainer expected = new PersonalTrainer();
+        expected.setId(2L);
+        expected.setFirstName("Fit");
+        expected.setLastName("Jack");
+        return expected;
+    }
+
     @Test
     public void shouldReadAll() throws Exception {
         //given
-        List<PersonalTrainer> expectedList = new ArrayList<>();
-        PersonalTrainer personalTrainer = createPersonalTrainer();
-        expectedList.add(personalTrainer);
-        personalTrainer = new PersonalTrainer();
-        personalTrainer.setId(2L);
-        personalTrainer.setFirstName("Fat");
-        personalTrainer.setLastName("Louis");
-        expectedList.add(personalTrainer);
-        when(personalTrainerService.readAll()).thenReturn(expectedList);
+        List<PersonalTrainer> personalTrainerList = new ArrayList<>();
+        personalTrainerList.add(createPersonalTrainer());
+        personalTrainerList.add(createPersonalTrainer2());
+        when(personalTrainerService.readAll()).thenReturn(personalTrainerList);
         //when
         ResultActions resultActions = mockMvc.perform(get("/personalTrainers")
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON))
                 .andDo(print());
         //then
-        resultActions.andExpect(status().isOk());
-        String jsonResponse = getJsonResponseAsString(resultActions);
-        ObjectMapper mapper = new ObjectMapper();
-        List<PersonalTrainer> actualList = mapper.readValue(jsonResponse, new TypeReference<List<PersonalTrainer>>() {
-        });
-        assertEquals(expectedList, actualList);
-    }
-
-    private String getJsonResponseAsString(ResultActions resultActions) throws UnsupportedEncodingException {
-        return resultActions.andReturn().getResponse().getContentAsString();
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].id").value(1))
+                .andExpect(jsonPath("$.[0].firstName").value("John"))
+                .andExpect(jsonPath("$.[0].lastName").value("Doe"))
+                .andExpect(jsonPath("$.[1].id").value(2))
+                .andExpect(jsonPath("$.[1].firstName").value("Fit"))
+                .andExpect(jsonPath("$.[1].lastName").value("Jack"));
     }
 }
