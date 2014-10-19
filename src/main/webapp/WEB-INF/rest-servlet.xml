@@ -64,7 +64,11 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <!--<bean id="lazyLoadingAspect" class="com.brn.homebrew.infrastructure.LazyLoadingAspect">-->
-    <!--</bean>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.brn.homebrew.controller.interceptor.AddAccessControllAllowOriginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>
