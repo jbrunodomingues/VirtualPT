@@ -10,7 +10,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 ext {
-    springframeworkVersion = '4.0.6.RELEASE'
+    springframeworkVersion = '4.1.1.RELEASE'
     springDataVersion = '1.6.2.RELEASE'
     springSecurityVersion = '3.2.4.RELEASE'
     hibernateVersion = '4.3.6.Final'
@@ -35,7 +35,6 @@ repositories {
 }
 
 dependencies {
-//    This jstl is for jsp and maybe it can be cleaned
     compile "jstl:jstl:$jstlVersion"
     compile "mysql:mysql-connector-java:$mysqlConnectorVersion"
     compile "commons-dbcp:commons-dbcp:$commonsDbcpVersion"
